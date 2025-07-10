@@ -44,26 +44,51 @@ python3 process_cities.py
 
 ## Input Data Format
 
-The script expects `cities15000.txt` to be a tab-separated values file with the following columns (1-based indexing):
+The script expects two input files:
+
+### cities15000.txt
+A tab-separated values file with the following columns (1-based indexing):
 - Column 2: City name
 - Column 5: Latitude (decimal degrees)
 - Column 6: Longitude (decimal degrees)
 - Column 9: Country code (ISO 3166-1 alpha-2)
-- Column 15: Population count
 - Column 18: Timezone (IANA identifier)
+
+### countryInfo.txt
+A tab-separated values file with country information:
+- Column 1: Country code (ISO 3166-1 alpha-2)
+- Column 5: Country name
 
 ## Output Database Schema
 
-The `cities.sqlite` database contains a single table named `cities` with the following structure:
+The `cities.sqlite` database contains three tables:
 
+### countries table
+```sql
+CREATE TABLE countries (
+    country_code TEXT PRIMARY KEY,
+    country_name TEXT
+);
+```
+
+### timezones table
+```sql
+CREATE TABLE timezones (
+    timezone_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timezone TEXT UNIQUE
+);
+```
+
+### cities table
 ```sql
 CREATE TABLE cities (
     name TEXT,
     country_code TEXT,
     latitude REAL,
     longitude REAL,
-    timezone TEXT,
-    population INTEGER
+    timezone_id INTEGER,
+    FOREIGN KEY (country_code) REFERENCES countries (country_code),
+    FOREIGN KEY (timezone_id) REFERENCES timezones (timezone_id)
 );
 ```
 
