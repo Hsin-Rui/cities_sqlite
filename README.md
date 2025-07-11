@@ -1,4 +1,4 @@
-# GeoNames Cities Data and Taiwan Cities Processor
+# GeoNames Cities Data 
 
 This project processes GeoNames cities data from a TSV file and creates a SQLite database with a curated subset of the data. Additionally, it provides scripts to query and update Taiwan city data within the same database.
 
