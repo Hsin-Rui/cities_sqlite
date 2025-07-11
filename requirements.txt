@@ -1,6 +1,0 @@
-# No external dependencies required
-# This project uses only Python standard libraries:
-# - sqlite3 (database operations)
-# - csv (TSV file parsing)
-# - os (file operations)
-# - sys (system operations)

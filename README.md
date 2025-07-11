@@ -1,14 +1,16 @@
-# GeoNames Cities Data Processor
+# GeoNames Cities Data and Taiwan Cities Processor
 
-This project processes GeoNames cities data from a TSV file and creates a SQLite database with a curated subset of the data.
+This project processes GeoNames cities data from a TSV file and creates a SQLite database with a curated subset of the data. Additionally, it provides scripts to query and update Taiwan city data within the same database.
 
 ## Files
 
-- `process_cities.py` - Main Python script that processes the data
-- `run_cities_processor.sh` - Shell script to run the processor in a virtual environment
-- `cities15000.txt` - Input TSV file from GeoNames (UTF-8 encoded, no header)
-- `cities.sqlite` - Output SQLite database (created by the script)
-- `cities_env/` - Python virtual environment directory
+- `process_cities.py` - Main Python script that processes GeoNames data and populates the `cities.sqlite` database.
+- `run_cities_processor.sh` - Shell script to run the `process_cities.py` in a virtual environment.
+- `query_tw_cities.py` - Python script to query Taiwan cities from `cities.sqlite` and export them to `taiwan_cities.csv`.
+- `update_tw_cities.py` - Python script to update Taiwan city data in `cities.sqlite` based on `taiwan_cities.csv`.
+- `cities15000.txt` - Input TSV file from GeoNames (UTF-8 encoded, no header).
+- `taiwan_cities.csv` - CSV file containing Taiwan city data, used for querying and updating.
+- `cities.sqlite` - Output SQLite database (created by `process_cities.py`).
 
 ## Requirements
 
@@ -17,12 +19,9 @@ This project processes GeoNames cities data from a TSV file and creates a SQLite
 
 ## Usage
 
-### Option 1: Using the shell script (recommended)
-```bash
-./run_cities_processor.sh
-```
+### 1. Process GeoNames Data
 
-### Option 2: Manual virtual environment activation
+#### Option 1. Manual virtual environment activation
 ```bash
 # Create virtual environment (if not exists)
 python3 -m venv cities_env
@@ -37,14 +36,30 @@ python process_cities.py
 deactivate
 ```
 
-### Option 3: Direct execution (without virtual environment)
+#### Option 2: Direct execution (without virtual environment)
 ```bash
 python3 process_cities.py
 ```
 
+### 2. Query Taiwan Cities
+
+To extract Taiwan city data from `cities.sqlite` into `taiwan_cities.csv`:
+
+```bash
+python query_tw_cities.py
+```
+
+### 3. Update Taiwan Cities
+
+To update Taiwan city data in `cities.sqlite` using `taiwan_cities.csv` as the source:
+
+```bash
+python update_tw_cities.py
+```
+
 ## Input Data Format
 
-The script expects two input files:
+The `process_cities.py` script expects two input files:
 
 ### cities15000.txt
 A tab-separated values file with the following columns (1-based indexing):
@@ -100,6 +115,7 @@ CREATE TABLE cities (
 - ✅ Progress indicators during processing
 - ✅ Automatic cleanup of existing database files
 - ✅ Virtual environment isolation
+- ✅ Query and update functionalities for specific country data (e.g., Taiwan)
 
 ## Example Output
 
